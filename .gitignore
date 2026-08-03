@@ -1,0 +1,3 @@
+# node modules
+/confirmation-service/node_modules
+/order-service/node_modules

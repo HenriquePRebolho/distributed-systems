@@ -1,0 +1,27 @@
+# https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: confirmation-service  # must be unique within namespace
+  labels:         # organize and categorize
+    app: confirmation-service
+spec:             # desired status of the deployment
+  replicas: 3     # number of desired pods
+  selector:       # label query over a set of resources 
+    matchLabels:
+      app: confirmation-service   # It must match the pod template's labels
+  template:       # describes the data a pod should have when created from a template
+    metadata:
+      labels:
+        app: confirmation-service
+    spec:         # specification of the desired behavior of the pod
+      containers:
+        - name: confirmation-service-container
+          image: henriquerebolho/ex4cc-front-no-load-balancer:latest # TODO
+          imagePullPolicy: Always   # kubelet fetches the image
+          ports:
+          - containerPort: 4000    # list of ports to expose from the container
+          env:
+          - name: VITE_API_BASE_URL  # TODO
+            value: "http://192.168.49.2:30081"  # TODO

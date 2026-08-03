@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+// package definition
+package confirmation;
+
+// service definition
+service Confirmation {
+    // rpc method, param and returns
+    rpc ConfirmOrder (ConfirmRequest) returns (ConfirmResponse);
+    rpc ConfirmOrderBellowPrice (ConfirmOrderBellowPrice) returns (ConfirmResponse);
+}
+
+// message
+message ConfirmRequest {
+    string isin = 1;
+}
+
+// message
+message ConfirmOrderBellowPrice{
+    string isin = 1;
+    double maxPrice = 2;
+}
+
+// message
+message ConfirmResponse {
+    double price = 1;
+    int32 state = 2;
+}

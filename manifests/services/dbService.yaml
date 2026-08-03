@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  selector: # route service traffic to pods with label keys and values matching this selector
+    app: mongodb
+  ports:    # list of ports that are exposed by this service
+    - port: 27017        # port that will be exposed by this service
+      targetPort: 27017  # number of the port to access on the pods targeted by the service
+      protocol: TCP      # IP protocol used for this port
+  clusterIP: None        # "None" makes a "headless service" (no virtual IP). useful when direct endpoint connections are preferred and proxying is not required

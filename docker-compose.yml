@@ -1,0 +1,30 @@
+services:
+  mysqlservice:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ordersdb
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+    # Mounts the init.sql file to docker entrypoint - runs the query on startup
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+  order-service:
+    image: henriquerebolho/order-service-extended
+    #build: ./order-service
+    ports:
+      - "6010:6010"
+    depends_on:
+      - mysqlservice
+
+
+  confirmation-service:
+    image: henriquerebolho/confirmation-service-extended
+    #build: ./confirmation-service
+    ports:
+      - "4000:4000"
+    deploy:
+      replicas: 2
