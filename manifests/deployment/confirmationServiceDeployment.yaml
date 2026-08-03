@@ -18,8 +18,8 @@ spec:             # desired status of the deployment
     spec:         # specification of the desired behavior of the pod
       containers:
         - name: confirmation-service-container
-          image: confirmation-service:local
-          imagePullPolicy: Never
+          image: henriquerebolho/confirmation-service-extended:latest
+          imagePullPolicy: Always
           ports:
           - name: grpc
             containerPort: 4000

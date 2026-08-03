@@ -18,8 +18,8 @@ spec:             # desired status of the deployment
     spec:         # specification of the desired behavior of the pod
       containers:
         - name: order-service-container
-          image: order-service:local
-          imagePullPolicy: Never
+          image: henriquerebolho/order-service-extended:latest
+          imagePullPolicy: Always
           env:
           - name: MONGODB_URI
             value: mongodb://db-service:27017/orders
