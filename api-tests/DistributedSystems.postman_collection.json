@@ -1,0 +1,129 @@
+{
+  "info": {
+    "_postman_id": "c1520de7-fc3e-45ab-a23a-72b44f18668d",
+    "name": "Distributed Systems - Order API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:6010"
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Order API workflow",
+      "item": [
+        {
+          "name": "1. Create order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Order is created', function () {", 
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.collectionVariables.set('orderId', pm.response.json()._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman test order\",\n  \"isin\": \"US64110L1061\",\n  \"amount\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/orders"
+          },
+          "response": []
+        },
+        {
+          "name": "2. Get created order",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/orders/{{orderId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "3. Update amount",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/orders/{{orderId}}/amount"
+          },
+          "response": []
+        },
+        {
+          "name": "4. Confirm order",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{baseUrl}}/orders/{{orderId}}/confirm?maxPrice=100000"
+          },
+          "response": []
+        },
+        {
+          "name": "5. Get confirmed order",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/orders/{{orderId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "6. Delete order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/orders/{{orderId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "List all orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/orders"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

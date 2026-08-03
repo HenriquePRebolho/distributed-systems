@@ -188,6 +188,12 @@ Invoke-RestMethod "http://localhost:6010/orders/$id"
 
 The confirmation request exercises the full HTTP → gRPC → external price lookup flow. Use a valid ISIN supported by the market-data endpoint.
 
+### Test with Postman
+
+Import [`api-tests/DistributedSystems.postman_collection.json`](api-tests/DistributedSystems.postman_collection.json) into Postman. The collection has no secrets and includes a `baseUrl` collection variable, set by default to `http://localhost:6010` for use with the port-forward command above.
+
+Run the **Order API workflow** folder in order. The first request creates an order and automatically saves its ID in the `orderId` collection variable for the following requests. Set `baseUrl` to the address of your own deployment if it differs.
+
 To run the load test while port-forwarding is active:
 
 ```powershell
