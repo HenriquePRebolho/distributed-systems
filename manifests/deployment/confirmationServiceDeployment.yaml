@@ -7,7 +7,7 @@ metadata:
   labels:         # organize and categorize
     app: confirmation-service
 spec:             # desired status of the deployment
-  replicas: 3     # number of desired pods
+  replicas: 1
   selector:       # label query over a set of resources 
     matchLabels:
       app: confirmation-service   # It must match the pod template's labels
@@ -18,10 +18,18 @@ spec:             # desired status of the deployment
     spec:         # specification of the desired behavior of the pod
       containers:
         - name: confirmation-service-container
-          image: henriquerebolho/ex4cc-front-no-load-balancer:latest # TODO
-          imagePullPolicy: Always   # kubelet fetches the image
+          image: confirmation-service:local
+          imagePullPolicy: Never
           ports:
-          - containerPort: 4000    # list of ports to expose from the container
-          env:
-          - name: VITE_API_BASE_URL  # TODO
-            value: "http://192.168.49.2:30081"  # TODO
+          - name: grpc
+            containerPort: 4000
+          readinessProbe:
+            tcpSocket:
+              port: grpc
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: grpc
+            initialDelaySeconds: 10
+            periodSeconds: 10

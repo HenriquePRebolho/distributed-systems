@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: order-service-service
 spec:
-  selector: # route service traffic to pods with label keys and values matching this selector
-    app: order-confirmation
-  ports:    # list of ports that are exposed by this service
-    - port: 6010        # port that will be exposed by this service
-      targetPort: 6010  # number of the port to access on the pods targeted by the service
-      nodePort: 30081   # IP protocol used for this port TODO
-  type: NodePort     # service will only be accessible inside the cluster, via the cluster IP
+  selector:
+    app: order-service
+  ports:
+    - name: http
+      port: 6010
+      targetPort: 6010
+      nodePort: 30081
+  type: NodePort

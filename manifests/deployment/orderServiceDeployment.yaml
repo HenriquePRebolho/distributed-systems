@@ -7,7 +7,7 @@ metadata:
   labels:         # organize and categorize
     app: order-service
 spec:             # desired status of the deployment
-  replicas: 3     # number of desired pods
+  replicas: 1
   selector:       # label query over a set of resources 
     matchLabels:
       app: order-service   # It must match the pod template's labels
@@ -18,12 +18,24 @@ spec:             # desired status of the deployment
     spec:         # specification of the desired behavior of the pod
       containers:
         - name: order-service-container
-          image: henriquerebolho/ex4cc-back-no-load-balancer:latest # TODO
-          imagePullPolicy: Always  # kubelet fetches the image
+          image: order-service:local
+          imagePullPolicy: Never
           env:
           - name: MONGODB_URI
-            value: mongodb://db-service:27017/mydb
-          ports: 
-          - containerPort: 6010          # list of ports to expose from the container
+            value: mongodb://db-service:27017/orders
+          - name: CONFIRMATION_SERVICE_ADDRESS
+            value: confirmation-service-service:4000
+          ports:
+          - name: http
+            containerPort: 6010
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
 
-  

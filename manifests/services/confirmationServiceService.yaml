@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: confirmation-service-service
 spec:
-  selector: # route service traffic to pods with label keys and values matching this selector
+  selector:
     app: confirmation-service
-  ports:    # list of ports that are exposed by this service
-    - port: 4000        # port that will be exposed by this service
-      targetPort: 4000  # number of the port to access on the pods (containers) targeted by the service
-      nodePort: 30080  # external port TODO
-  type: NodePort      # service will only be accessible inside the cluster, via the cluster IP
+  ports:
+    - name: grpc
+      port: 4000
+      targetPort: 4000
+      protocol: TCP
+  type: ClusterIP

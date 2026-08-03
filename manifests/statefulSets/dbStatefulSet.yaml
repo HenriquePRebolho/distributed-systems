@@ -17,7 +17,8 @@ spec:
         - name: mongodb
           image: mongo:latest
           ports: 
-          - containerPort: 27017    # list of ports to expose from the container
+          - name: mongodb
+            containerPort: 27017
           volumeMounts:         # list of claims that pods are allowed to reference
           - name: mongo-data
             mountPath: /data/db

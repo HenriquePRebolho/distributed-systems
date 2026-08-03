@@ -18,7 +18,8 @@ const confirmationProto = grpc.loadPackageDefinition(packageDefinition).confirma
 
 // Create the client
 const client = new confirmationProto.Confirmation(
-    'localhost:4000', grpc.credentials.createInsecure() // confirmation-service
+    process.env.CONFIRMATION_SERVICE_ADDRESS || 'localhost:4000',
+    grpc.credentials.createInsecure()
 );
 
 // Define a function that executes the RPC and can be called locally
